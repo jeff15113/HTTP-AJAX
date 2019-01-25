@@ -3,12 +3,20 @@ import "./App.css";
 import Axios from "axios";
 import FriendsList from "./components/friendslist/FriendsList";
 import Header from "./components/header/Header";
+
+const newFriend = {
+  name: '',
+  age: '',
+  email: ''
+}
+
 class App extends Component {
   state = {
     friends: [],
     error: "",
     adding: 0,
-    friend: [{ name: "test", age: 99, email: "test@test.com" }]
+    //friend: [{ name: "test", age: 99, email: "test@test.com" }]
+    friend: newFriend
   };
 
   componentDidMount() {
@@ -38,9 +46,21 @@ class App extends Component {
     console.log("done");
     Axios.post(`https://testsite.akiradj.com/friends`, this.state.friend)
       .then(res => {
-        this.setState({ friends: res.data });
+        this.setState({ friends: res.data, friend: newFriend, adding: 0 });
       })
       .catch(err => console.log(err));
+  };
+
+  handleChanges = e => {
+    e.persist();
+    this.setState(prevState => {
+      return {
+        friend: {
+          ...prevState.friend,
+          [e.target.name]: e.target.value
+        }
+      };
+    });
   };
 
   render() {
@@ -48,6 +68,7 @@ class App extends Component {
       <div className="App">
         <Header />
         <FriendsList
+          handleChanges={this.handleChanges}
           addFriend={this.addFriend}
           friendslist={this.state.friends}
           removeFriend={this.removeFriend}

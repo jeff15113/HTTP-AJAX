@@ -13,6 +13,7 @@ const FriendsList = props => {
         />
       ))}
       <ConditionalCard
+        handleChanges={props.handleChanges}
         add={props.add}
         adding={props.adding}
         addFriend={props.addFriend}

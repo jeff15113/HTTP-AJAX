@@ -3,8 +3,8 @@ import AddFriend from "./addFriend";
 import FriendForm from "./FriendForm";
 
 const ConditionalCard = props => {
-  if (props.adding) return <FriendForm />;
-  else return <AddFriend add={props.add} addFriend={props.addFriend} />;
+  if (props.adding) return <FriendForm addFriend={props.addFriend} handleChanges={props.handleChanges} />;
+  else return <AddFriend add={props.add} />;
 };
 
 export default ConditionalCard;
