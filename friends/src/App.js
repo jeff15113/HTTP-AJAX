@@ -4,9 +4,15 @@ import Axios from "axios";
 import FriendsList from "./components/friendslist/FriendsList";
 import Header from "./components/header/Header";
 class App extends Component {
-  state = { friends: [], error: "" };
+  state = {
+    friends: [],
+    error: "",
+    adding: 0,
+    friend: [{ name: "test", age: 99, email: "test@test.com" }]
+  };
+
   componentDidMount() {
-    Axios.get(`http://192.168.1.246:5000/friends`)
+    Axios.get(`https://testsite.akiradj.com/friends`)
       .then(data => {
         this.setState({ friends: [...data.data] });
       })
@@ -16,7 +22,25 @@ class App extends Component {
   removeFriend = (e, id) => {
     e.persist();
     console.log(id);
-    Axios.delete(`http://192.168.1.246:5000/friends/${id}`);
+    Axios.delete(`https://testsite.akiradj.com/friends/${id}`).then(data => {
+      this.setState({ friends: [...data.data] }).catch(err => {
+        console.log(err);
+      });
+    });
+  };
+
+  add = () => {
+    this.setState({ adding: 1 });
+  };
+
+  addFriend = e => {
+    e.preventDefault();
+    console.log("done");
+    Axios.post(`https://testsite.akiradj.com/friends`, this.state.friend)
+      .then(res => {
+        this.setState({ friends: res.data });
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -24,8 +48,11 @@ class App extends Component {
       <div className="App">
         <Header />
         <FriendsList
+          addFriend={this.addFriend}
           friendslist={this.state.friends}
           removeFriend={this.removeFriend}
+          adding={this.state.adding}
+          add={this.add}
         />
       </div>
     );

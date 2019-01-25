@@ -1,5 +1,6 @@
 import React from "react";
 import Friend from "./friend";
+import ConditionalCard from "./ConditionalCard";
 const FriendsList = props => {
   return (
     <div className="friendslist">
@@ -11,6 +12,11 @@ const FriendsList = props => {
           removeFriend={props.removeFriend}
         />
       ))}
+      <ConditionalCard
+        add={props.add}
+        adding={props.adding}
+        addFriend={props.addFriend}
+      />
     </div>
   );
 };
